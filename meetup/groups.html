@@ -1,0 +1,40 @@
+<h1>Groups</h1>
+<ul class="groups">
+  {{range .}}
+  <li class="group">
+    {{.Name}}
+    <button class="leave" data-id={{.Id}}>Leave</button>
+  </li>
+  {{end}}
+</ul>
+
+<script type="text/javascript">
+  (function() {
+    document.addEventListener('DOMContentLoaded', function() {
+      var removeNode = function(node) {
+        return function() {
+          if(this.status === 200) {
+            node.parentNode.remove();
+          }
+        };
+      };
+
+      var leaveGroup = function() {
+        node = this;
+        var id = node.dataset.id;
+        var data = new FormData();
+        data.append('id', id);
+        var request = new XMLHttpRequest();
+        request.open('DELETE', '/groups')
+        request.onload = removeNode(node);
+        request.send(data)
+      };
+
+      var groups = document.querySelectorAll('.groups .group .leave');
+      groups = Array.prototype.slice.call(groups)
+      groups.forEach(function(group) {
+        group.addEventListener('click', leaveGroup)
+      });
+    });
+  })();
+</script>
