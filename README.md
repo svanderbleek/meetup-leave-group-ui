@@ -8,7 +8,6 @@ The server uses your meetup api key to list and leave groups.
 
 ```bash
 export MEETUP_API_KEY=your-api-key
-go build server.go
-./server
+go run server.go
 open http://localhost:8080/groups
 ```
